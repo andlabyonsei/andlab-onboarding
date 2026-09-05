@@ -2,6 +2,10 @@
 
 공용 서버에서 딥러닝·NLP 실험을 하려면 CUDA, Python 가상환경, PyTorch 등을 설정해야 합니다.
 
+::: tip 자세한 가이드
+Ubuntu 22.04 기준 전체 절차는 <a href="/docs/linux-ubuntu-22.04-manual-v2.2.pdf" target="_blank" rel="noopener noreferrer">리눅스 (Ubuntu 22.04) 메뉴얼 v2.2</a> PDF에서 확인할 수 있습니다. 링크를 누르면 새 창에서 열립니다.
+:::
+
 ## 전체 순서
 
 1. 계정 생성 및 SSH 접속 ([SSH 접속 및 계정](./ssh-and-account))
@@ -11,7 +15,6 @@
 5. CUDA용 PyTorch 설치
 6. [디스크·캐시 관리](./disk-and-cache) 설정
 
----
 
 ## 1. CUDA 환경변수
 
@@ -29,7 +32,6 @@ source ~/.bashrc
 nvcc --version
 ```
 
----
 
 ## 2. cuDNN 확인
 
@@ -39,7 +41,6 @@ cat /usr/local/cuda-12.8/include/cudnn_version.h | grep CUDNN_MAJOR -A 2
 
 출력에서 `CUDNN_MAJOR`, `CUDNN_MINOR` 버전을 확인합니다. PyTorch 설치 시 이 CUDA/cuDNN 버전과 맞는 빌드를 선택하세요.
 
----
 
 ## 3. Anaconda 설치
 
@@ -49,7 +50,6 @@ cat /usr/local/cuda-12.8/include/cudnn_version.h | grep CUDNN_MAJOR -A 2
 가상환경은 `/home`이 아닌 **`/mnt/nvme03/{계정명}/envs/`** 에 생성하세요. ([디스크·캐시 관리](./disk-and-cache))
 :::
 
----
 
 ## 4. 가상환경 생성
 
@@ -62,7 +62,6 @@ conda activate /mnt/nvme03/{계정명}/envs/myenv
 
 `{계정명}`을 본인 계정 ID로 바꿉니다.
 
----
 
 ## 5. PyTorch (CUDA) 설치
 
@@ -80,13 +79,11 @@ pip install torch torchvision torchaudio --index-url https://download.pytorch.or
 python -c "import torch; print(torch.cuda.is_available()); print(torch.cuda.get_device_name(0))"
 ```
 
----
 
 ## 6. 에디터 원격 연결
 
 [SSH 접속 및 계정](./ssh-and-account)에서 설정한 `Host`로 VS Code/Cursor Remote SSH에 연결하면, 서버에서 바로 코드를 실행·디버깅할 수 있습니다.
 
----
 
 ## 체크리스트
 

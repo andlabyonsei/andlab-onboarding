@@ -23,7 +23,6 @@ du -sh ~
 du -sh ~/.cache
 ```
 
----
 
 ## 리소스 모니터링
 
@@ -36,7 +35,6 @@ nvidia-smi
 nvidia-smi -l 1
 ```
 
----
 
 ## 서버 종료·재부팅
 
@@ -66,7 +64,6 @@ sudo shutdown -c
 
 편의 스크립트: [유용한 쉘 스크립트 — server_shutdown.sh / server_boot.sh](./useful-scripts)
 
----
 
 ## RAM 하드웨어 확인 (관리자)
 
@@ -83,7 +80,6 @@ sudo dmidecode -t memory | egrep "Locator:|Bank Locator:|Size:"
 
 스크립트 버전: [ram_info.sh](./useful-scripts#ram_infosh)
 
----
 
 ## 권한·시스템 정보 (관리자)
 
@@ -100,7 +96,6 @@ sudo visudo
 
 스크립트 설명: [유용한 쉘 스크립트](./useful-scripts)
 
----
 
 ## Docker (Milvus)
 
@@ -110,7 +105,6 @@ sudo docker ps -a | grep milvus
 
 자세한 내용: [Milvus 벡터 DB](./milvus)
 
----
 
 ## conda·캐시 정리
 

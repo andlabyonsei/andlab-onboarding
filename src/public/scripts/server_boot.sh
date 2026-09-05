@@ -4,7 +4,7 @@
 
 set -euo pipefail
 
-echo "=== AND Lab Post-Boot Check ==="
+echo "=== ANDlab Post-Boot Check ==="
 echo "Host: $(hostname)"
 echo "Uptime: $(uptime -p 2>/dev/null || uptime)"
 echo ""

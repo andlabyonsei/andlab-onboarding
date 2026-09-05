@@ -1,6 +1,6 @@
 # 디스크·캐시 관리
 
-공용 서버의 `/home` 파티션은 OS와 로그·패키지 업데이트용 여유 공간이 필요합니다. **대용량 파일은 반드시 `/mnt` 하위에 저장**해야 합니다.
+공용 서버의 `/home` 파티션은 OS와 로그·패키지 업데이트용 여유 공간이 필요합니다. **대용량 파일은 반드시 `/mnt` 하위에 저장**하는 것을 권장합니다.
 
 ## 왜 `/mnt`를 써야 하나요?
 
@@ -10,9 +10,8 @@
 
 **목표:** 루트 파티션에 **최소 300~400GB(약 20%)** 여유 공간 유지
 
----
 
-## 저장 위치 규칙
+## 저장 위치 (예시)
 
 | 항목 | 저장 위치 | `/home`에 두면 안 되는 이유 |
 |------|-----------|---------------------------|
@@ -20,13 +19,11 @@
 | HuggingFace 캐시 | `/mnt/nvme03/{계정명}/.cache/huggingface` | 모델 다운로드 수 GB~수백 GB |
 | PyTorch 캐시 | `/mnt/nvme03/{계정명}/.cache/torch` | 사전학습 가중치 |
 | pip 캐시 | `/mnt/nvme03/{계정명}/.cache/pip` | 패키지 wheel 누적 |
-| 데이터셋 | `/mnt/nvme03/{계정명}/datasets/` | 대용량 |
 | 체크포인트 (.pt, .ckpt) | `/mnt/nvme03/{계정명}/checkpoints/` | 학습마다 수 GB |
 | 실험 로그 (Tensorboard, WandB) | `/mnt/nvme03/{계정명}/logs/` | 장기 누적 |
 
 `/mnt/nvme02/home/{계정명}` 경로를 쓰는 경우도 있으니, 랩장에게 본인에게 배정된 경로를 확인하세요.
 
----
 
 ## 가상환경을 `/mnt`에 생성
 
@@ -35,7 +32,6 @@ conda create -p /mnt/nvme03/{계정명}/envs/{가상환경명} python=3.10
 conda activate /mnt/nvme03/{계정명}/envs/{가상환경명}
 ```
 
----
 
 ## 캐시 경로 변경 (`~/.bashrc`)
 
@@ -72,7 +68,6 @@ source ~/.bashrc
 스레드 제한은 서버 전체 안정성뿐 아니라, 개인 실험 속도에도 도움이 되는 경우가 많습니다.
 :::
 
----
 
 ## 용량 확인
 
@@ -89,7 +84,6 @@ du -sh ~/.cache
 sudo du -sh /home/* | sort -h
 ```
 
----
 
 ## 정리 방법
 
@@ -97,7 +91,7 @@ sudo du -sh /home/* | sort -h
 
 ```bash
 conda env list
-conda remove -p /mnt/nvme03/{계정명}/envs/사용안하는환경 --all
+conda remove -p /mnt/nvme03/{계정명}/envs/{가상환경명} --all
 ```
 
 ### 2. conda·pip 캐시 정리
@@ -116,7 +110,6 @@ pip cache purge
 
 캐시 경로를 `/mnt`로 옮긴 뒤, 기존 `~/.cache` 내용은 삭제해도 됩니다 (필요한 파일 백업 후).
 
----
 
 ## 신규 계정 생성 시 (관리자)
 

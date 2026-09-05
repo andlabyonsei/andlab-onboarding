@@ -1,9 +1,15 @@
 import { defineConfig } from 'vitepress'
+import taskLists from 'markdown-it-task-lists'
 
 export default defineConfig({
-  title: 'AND Lab 가이드',
-  description: '연세대학교 AND Lab 신입생·연구원을 위한 랩실 가이드',
+  title: 'ANDlab 가이드',
+  description: '연세대학교 ANDlab 신입생·연구원을 위한 랩실 가이드',
   lang: 'ko-KR',
+  markdown: {
+    config(md) {
+      md.use(taskLists, { enabled: true, label: true })
+    },
+  },
   themeConfig: {
     nav: [
       { text: '시작하기', link: '/getting-started/' },
@@ -52,6 +58,7 @@ export default defineConfig({
             { text: '개요', link: '/operations/' },
             { text: '웹마스터 업무', link: '/operations/webmaster' },
             { text: '프린터 설정', link: '/operations/printers' },
+            { text: '폐기물 처리', link: '/operations/waste-disposal' },
           ],
         },
       ],
@@ -67,8 +74,8 @@ export default defineConfig({
     },
     socialLinks: [],
     footer: {
-      message: 'AND Lab 내부 가이드',
-      copyright: 'Copyright © AND Lab',
+      message: 'ANDlab 내부 가이드',
+      copyright: 'Copyright © ANDlab',
     },
     search: {
       provider: 'local',

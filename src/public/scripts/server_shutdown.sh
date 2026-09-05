@@ -12,7 +12,7 @@ fi
 
 TIME="${1:-}"
 
-echo "=== AND Lab Server Shutdown ==="
+echo "=== ANDlab Server Shutdown ==="
 echo "Host: $(hostname)"
 echo "현재 로그인 사용자:"
 who

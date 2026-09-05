@@ -1,0 +1,29 @@
+.waste-request-side-by-side {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  align-items: start;
+  margin: 1rem 0;
+}
+
+.waste-request-side-by-side > div {
+  min-width: 0;
+}
+
+.waste-request-side-by-side .waste-request-example-img {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.waste-request-side-by-side .waste-request-example-img img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+  .waste-request-side-by-side {
+    grid-template-columns: 1fr;
+  }
+}

@@ -6,7 +6,6 @@
 
 GPU VRAM이 늘면 **시스템 RAM도 함께 늘려야** 합니다. 대형 모델·Milvus collection 로드 시 RAM 요구량이 급증합니다.
 
----
 
 ## 2026.06.15 — 공용서버1 RAM 불량
 
@@ -33,7 +32,6 @@ sudo dmidecode -t memory | egrep "Locator:|Bank Locator:|Size:"
 
 공용서버1 메인보드 A/S 보증은 보통 3년이며, 당시 **2년 경과** 상태였습니다. 메인보드 이슈는 **최대한 빠르게** 대응해야 합니다.
 
----
 
 ## 2026.05.24 — RAM 재배치·증설
 
@@ -49,17 +47,6 @@ sudo dmidecode -t memory | egrep "Locator:|Bank Locator:|Size:"
 - 배정 예산 내 구매 부품은 **제조사가 달라도** 구매 직후·설치 후·정상 작동 확인 **사진** 필요
 - 구매 → 설치 → 동작 확인 3단계 문서화
 
----
-
-## 신규 서버 스펙 (계획)
-
-| 항목 | 내용 |
-|------|------|
-| 디스크 | 1TB + 16TB |
-| OS 설치 디스크 | 16TB |
-| OS | Ubuntu 24.04 LTS |
-
----
 
 ## 계정 생성 시 기본 `.bashrc` (관리자)
 
@@ -79,7 +66,6 @@ export MKL_NUM_THREADS=8
 
 권한 할당: `sudo visudo`
 
----
 
 ## Milvus 운영 경로
 
@@ -87,10 +73,3 @@ export MKL_NUM_THREADS=8
 - Attu: `http://165.132.192.52:8000/#/connect`
 
 [Milvus 벡터 DB](../milvus) 참고
-
----
-
-## 향후 TODO
-
-- [ ] 서버 종료/구동 명령을 스크립트로 정리·공유 → [useful-scripts](../useful-scripts)에 반영됨
-- [ ] ram_info.sh 공용서버1·2 배포 유지

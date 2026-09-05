@@ -2,99 +2,139 @@
 
 랩실에 발송되었던 공용 서버 관련 공지 메일을 가이드 형태로 정리했습니다. 정책·배경 이해에 참고하세요.
 
----
+::: tip 메일 원문
+각 공지 아래 **메일 원문** 링크에서 PDF 원문을 새 창으로 확인할 수 있습니다. 원본 파일은 저장소 `docs/메일원문/`에도 있습니다.
+:::
 
 ## RAM 및 Milvus OOM (2025.05)
 
-**배경:** 5/31 Milvus 재가동 중 반복 중단. Docker/GPU VRAM이 아닌 **시스템 RAM OOM**이 원인.
+메일 원문: <a href="/docs/mail/ram-milvus-oom.pdf" target="_blank" rel="noopener noreferrer">공용서버 RAM 부족 이슈 관련 안내 및 서버 리소스 사용 협조 요청</a>
 
-**요약:**
+**배경 (2025.05.31):** Milvus를 재가동하려 했으나 기동 중간에 끊기는 현상이 반복됨. Docker 문제나 GPU VRAM 부족이 아니라 **시스템 RAM OOM(Out of Memory)** 이 원인이었음.
 
-- Milvus collection 증가 → 로드에 **약 200GB RAM** 필요
-- 다른 사용자 실험으로 RAM 거의 포화 (~100%)
-- Milvus safe close, SSH·명령 지연
-- 동국님·요한님이 학교 방문 재부팅으로 복구
+**당시 상황:**
+
+- Milvus collection 수가 늘어나면서 정상 가동·로드에 **약 200GB RAM**이 필요해진 상태
+- 다른 사용자 실험/작업이 이미 RAM을 상당량 점유 → 서버 전체 메모리 사용률이 **거의 100%** (glances 기준)
+- Milvus가 collection을 모두 로드하지 못하고 **safe close**로 중단
+- SSH 접속 지연, 일반 명령 실행 지연 등 **서버 전체 사용성**에도 영향
+- 학교 방문 재부팅으로 복구
+
+대용량 모델 로드, 벡터 DB collection 로드, 멀티프로세싱 등은 예상보다 많은 RAM을 점유할 수 있습니다. “GPU 작업”으로 실행한 코드도 실제로는 CPU/RAM 위주로 동작하는 경우가 있으므로 VRAM과 함께 시스템 RAM도 확인하세요.
 
 **협조 요청 (현재도 유효):**
 
-1. `htop`, `free -h`, `glances`, `nvidia-smi`로 주기적 확인
-2. GPU 작업도 RAM/CPU 사용 확인
-3. 대규모 작업 사전 공유, 종료 후 프로세스 정리
-4. 공용서버1 부하 시 **공용서버2** 계정으로 분산
-5. [디스크·캐시 관리](../disk-and-cache)의 `.bashrc` 설정 적용
+1. `htop`, `top`, `free -h`, `glances`, `nvidia-smi`로 CPU·RAM·GPU 사용량을 주기적으로 확인
+2. 장시간·대용량 작업은 가능하면 사전에 공유하고, 종료 후 남은 프로세스·세션이 없는지 확인
+3. 공용서버1에 작업이 몰릴 경우 **공용서버2**에 계정을 만들어 분산
+4. [디스크·캐시 관리](../disk-and-cache)의 `/home` 용량 관리·CPU thread 제한 설정을 계정별로 적용
 
-**캐시·가상환경 (민경님 팁 정리):**
+**캐시·가상환경·thread 제한 (`.bashrc` 권장)**
 
 ```bash
-conda create -p /mnt/nvme03/계정명/envs/myenv python=3.10
-conda activate /mnt/nvme03/계정명/envs/myenv
+# 가상환경은 /mnt 에 생성
+conda create -p /mnt/nvme03/[계정명]/envs/myenv python=3.10
+conda activate /mnt/nvme03/[계정명]/envs/myenv
 
-export HF_HOME=/mnt/nvme03/계정명/.cache/huggingface
-export TORCH_HOME=/mnt/nvme03/계정명/.cache/torch
-export PIP_CACHE_DIR=/mnt/nvme03/계정명/.cache/pip
+# HuggingFace / PyTorch / pip 캐시를 /mnt 로
+export HF_HOME=/mnt/nvme03/[계정명]/.cache/huggingface
+export TORCH_HOME=/mnt/nvme03/[계정명]/.cache/torch
+export PIP_CACHE_DIR=/mnt/nvme03/[계정명]/.cache/pip
 
+# CPU thread 과다 점유 방지 (개인 실험 속도에도 도움이 되는 경우가 많음)
 export TOKENIZERS_PARALLELISM=false
 export OMP_NUM_THREADS=8
 export MKL_NUM_THREADS=8
 ```
 
----
+가상환경, 캐시, 데이터셋, 모델 체크포인트, 실험 로그 등 **대용량 파일은 `/home`이 아니라** `/mnt/nvme03/[계정명]/` 등 별도 저장공간에 두세요.
 
-## `/home` 용량 관리 공지 (2025 — 루트 파티션 포화)
 
-**배경:** 루트 파티션(`/`) 사용률 거의 100%. 전체 ~1.8TB 중 `/home`만 ~1.5TB 사용.
+## `/home` 용량 관리 공지 (2026.03)
+
+메일 원문: <a href="/docs/mail/home-disk-shortage.pdf" target="_blank" rel="noopener noreferrer">공용 서버 디스크 용량 부족 관련 공지</a>
+
+**배경 (2026.03.04):** 루트 파티션(`/`) 사용률이 거의 **100%**. OS가 설치된 핵심 영역 전체 약 **1.8TB** 중 `/home`만 약 **1.5TB**를 사용해, 시스템 운영에 필요한 여유가 사실상 소진된 상태였음.
 
 **루트 100% 시 위험:**
 
-- 로그 기록 불가 → 장애 분석 불가
+- 로그 기록 불가 → 장애 발생 시 원인 분석 불가
 - 패키지 설치/업데이트 실패
-- 가상환경 생성 실패
-- 체크포인트·임시파일 저장 실패
-- 프로세스 비정상 종료, **부팅 실패** 가능
+- Python 가상환경 생성 실패
+- 모델 학습 중 체크포인트 저장 실패
+- 임시파일 생성 실패로 코드 실행 오류
+- 서비스/프로세스 비정상 종료
+- 최악의 경우 **시스템 부팅 실패**
+
+상태가 지속되면 연구 작업 중단·서버 불안정으로 이어질 수 있습니다. `/home`은 운영체제 전용 공간으로 두고, 대용량은 `/mnt`로 옮기는 것이 원칙입니다.
 
 **조치 요청 (정책으로 계속 적용):**
 
-1. 미사용 conda/venv 삭제, `conda clean --all`
-2. 오래된 체크포인트·로그 삭제 (best만 유지)
-3. 대용량 데이터는 `/mnt/nvme03` 또는 클라우드로 이동
-4. `~/.cache` 정리
+1. 미사용 conda/venv 삭제, `conda clean --all`로 캐시 정리
+2. 학습이 끝난 이전 epoch의 `.pt`/`.ckpt` 삭제 → **best만** 유지, Tensorboard·텍스트 로그 정리
+3. 대용량 데이터·결과물은 압축 후 `/mnt/nvme03` 또는 개인 클라우드로 이동
+4. `~/.cache` (`/home/*/.cache`) 정리 — 캐시만 지워도 상당량 확보 가능
 
-**목표:** 루트 파티션 **300~400GB 이상** 여유 확보
+**목표:** 로그 기록·패키지 업데이트 등을 위해 루트 파티션 **300~400GB 이상**(전체의 약 20%) 여유 확보
 
----
+같은 스레드에서 `/mnt` 가상환경·캐시·결과물 저장 팁은 이후 관리 지침에도 반영되었습니다. 일부 랩원은 `/mnt/nvme02`를 사용 중이니, 본인에게 배정된 마운트 경로는 랩장에게 확인하세요.
 
-## 계정별 정리·신규 관리 지침 (2025)
+
+## 계정별 정리·신규 관리 지침 (2026.03)
+
+메일 원문: <a href="/docs/mail/root-partition-policy.pdf" target="_blank" rel="noopener noreferrer">서버 루트 파티션 용량 확보 및 공용 서버 관리 지침 안내</a>
+
+**배경(2026.03.05):** 이전 `/home` 용량 공지에 이어, 계정별 정리와 **향후 관리 규칙**을 명시한 공지입니다.
 
 ### 1. 계정별 데이터 정리
 
-- `/home` 사용량 **100GB 이하** 권장
-- 당시 대상 계정 예: `chlduswns99`, `sunga`, `dongkuk`, `seyeon` (이력 참고용)
+- `/home` 사용량을 **100GB 이하**로 유지
+- 용량 확보에 기술적 어려움이 있으면 미리 공유
 
 ### 2. 장기 미사용 계정 삭제 예고
 
-- 예: `/home/dada09`, `/home/aaai`, `/mnt/nvme02/home/dada09`
-- 보관 필요 데이터는 사전 백업
+- 보관이 필요한 데이터는 삭제 전 백업
+- 다른 디스크에 분산된 계정도 필요성 확인 후 순차 정리 예정이라고 안내됨
 
-### 3. 향후 관리 규칙 (신규)
+### 3. 향후 관리 규칙 (신규 · 계속 적용)
 
 | 규칙 | 내용 |
 |------|------|
-| 계정 위치 | `/home`에 생성, 계정당 **최대 100GB** |
-| 대용량 데이터 | `/mnt` 하위 |
-| 가상환경 | `/mnt/nvme03/{계정명}/envs/` |
-| 캐시 | HF_HOME, TORCH_HOME, PIP_CACHE_DIR → `/mnt` |
-| 데이터·결과물 | 데이터셋, 체크포인트, Tensorboard/WandB 로그 → `/mnt/nvme03/{계정명}/` |
+| 계정 위치·용량 | `/home`에 생성·일괄 관리, 계정당 **최대 100GB** |
+| 대용량 데이터 | `/home`이 아닌 `/mnt` 하위 |
+| 가상환경 | `conda create -p /mnt/nvme03/{계정명}/envs/{가상환경명}` |
+| 캐시 | `HF_HOME`, `TORCH_HOME`, `PIP_CACHE_DIR` → `/mnt/nvme03/{계정명}/.cache/...` (`.bashrc`에 추가) |
+| 데이터·결과물 | 데이터셋, `.pt`/`.ckpt`, Tensorboard/WandB 로그 등 → `/mnt/nvme03/{계정명}/` |
 
----
+
+## 공용서버1 디스크 정리·과도한 세션 안내 (2026.07)
+
+메일 원문: <a href="/docs/mail/disk-cleanup-sessions.pdf" target="_blank" rel="noopener noreferrer">공용서버1 디스크 용량 정리 및 과도한 세션 생성 관련 안내</a>
+
+**배경(2026.07.18):** 공용서버1 관련하여 **(1) 디스크 용량 정리**와 **(2) 세션 생성 제한** 두 가지를 안내한 공지입니다.
+
+### 1. 디스크 용량 정리
+
+- 공용서버1 **메인 드라이브 사용량 90% 초과** → 성능 저하·처리 지연 가능
+- `/home`의 불필요 캐시, 오래된 checkpoint·log 등 정리
+- 개인 계정 사용 공간은 이전 지침과 같이 **100GB 이하** 유지
+- 당시 조속한 정리가 필요한 계정 리스트는 메일 원문 첨부 이미지 참고
+
+### 2. 과도한 세션 생성 · 접속 제한
+
+**증상:** `sudo` 실행 시 “장치에 공간이 없다”는 오류로 동작하지 않음이 제보됨.
+
+**원인:** 하드디스크 용량 부족이 아니라, `sudo` 등에 쓰이는 **시스템 공용 캐시 공간이 소진**된 것이었음. 7/17 접속 기록상 특정 계정에서 **수천 개에 가까운 세션**이 동시에 생성된 것이 확인됨. 사람이 직접 열기 어려운 수준이라 Claude·Cursor 등 **AI 에이전트가 병렬로 세션을 과다 생성**한 것으로 추정됨.
+
+**영향:** 세션이 과도하면 시스템 제어에 필요한 자원이 고갈되어 `sudo`를 쓸 수 없게 되고, **전체 사용자에게 위험**한 상황이 될 수 있음.
+
+**조치·협조:**
+
+- 공용서버1 개인 계정별 **최대 세션 수 10개**로 제한 (건일 님 지원으로 적용됨)
+- 가능하면 **단일 세션**에서 작업
+- AI 에이전트 사용은 가능하되, 다른 사용자에게 영향이 없도록 **병렬 세션·접속 옵션을 확인**하는 등 주의
+
 
 ## 랩원 추가 팁 (nvme02 사용 예시)
 
 일부 랩원은 `/mnt/nvme02`를 사용 중입니다. 본인에게 배정된 마운트 경로는 랩장에게 확인하세요. 원칙은 동일합니다: **대용량은 `/home`이 아닌 `/mnt`**.
-
----
-
-## 관련 가이드
-
-- [디스크·캐시 관리](../disk-and-cache)
-- [리소스 사용 가이드](../resource-usage)
-- [Milvus 벡터 DB](../milvus)

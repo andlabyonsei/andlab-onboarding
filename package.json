@@ -9,6 +9,7 @@
     "preview": "vitepress preview src"
   },
   "devDependencies": {
+    "markdown-it-task-lists": "^2.1.1",
     "vitepress": "^1.6.3"
   }
 }
