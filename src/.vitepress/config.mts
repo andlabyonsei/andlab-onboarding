@@ -62,7 +62,9 @@ export default defineConfig({
         },
       ],
     },
-    socialLinks: [],
+    socialLinks: [
+      { icon: 'github', link: 'https://github.com/andlabyonsei/andlab-onboarding' },
+    ],
     footer: {
       message: 'ANDlab 내부 가이드',
       copyright: 'Copyright © ANDlab',
