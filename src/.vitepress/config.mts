@@ -15,7 +15,6 @@ export default defineConfig({
       { text: '시작하기', link: '/getting-started/' },
       { text: '공용 서버', link: '/servers/' },
       { text: '랩실 운영', link: '/operations/' },
-      { text: '연구·논문', link: '/research/' },
     ],
     sidebar: {
       '/getting-started/': [
@@ -59,15 +58,6 @@ export default defineConfig({
             { text: '웹마스터 업무', link: '/operations/webmaster' },
             { text: '프린터 설정', link: '/operations/printers' },
             { text: '폐기물 처리', link: '/operations/waste-disposal' },
-          ],
-        },
-      ],
-      '/research/': [
-        {
-          text: '연구·논문',
-          items: [
-            { text: '개요', link: '/research/' },
-            { text: 'KSCI 논문 제출', link: '/research/ksci-submission' },
           ],
         },
       ],

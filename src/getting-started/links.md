@@ -17,7 +17,12 @@
 
 | 이름 | 용도 | 링크 |
 |------|------|------|
-| ANDlab 공유 시트 | 일정, 장비, 공지 등 공유 | [Google Sheets](https://docs.google.com/spreadsheets/d/1TgqyIqoprkRPuUhh50y0tLeVOOxGXhKenrB_wsMH5Ng/edit?gid=2053370388#gid=2053370388) |
+| 랩실 공용 시트 | 업무분담, 연락처, GPU 사용 현황, 랩미팅 일정, 비품·출근부 등 | [ANDLab_2026 (Google Sheets)](https://docs.google.com/spreadsheets/d/1TgqyIqoprkRPuUhh50y0tLeVOOxGXhKenrB_wsMH5Ng/edit?gid=1126439604#gid=1126439604) |
+| 논문·연구 현황 시트 | 랩원별 논문·연구 진행 현황 정리 | [Google Sheets](https://docs.google.com/spreadsheets/d/1I2E3Scabqm9dha_GsY5runxHjoLQUNIVSpj3vlcGFcs/edit?gid=0#gid=0) |
+
+::: tip
+랩원 공통으로 쓰는 **랩실 공용 시트**입니다. GPU 점유 현황 확인·기록, 미팅·당번·연락처 등은 여기서 확인·갱신하세요. 논문·연구 진행 상황은 **논문·연구 현황 시트**를 참고하세요.
+:::
 
 <!-- ## 개발 환경
 

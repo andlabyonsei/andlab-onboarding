@@ -10,6 +10,10 @@
 4. 작업 종료 후 **불필요한 프로세스·세션**을 정리합니다.
 5. 공용서버1이 바쁘면 **공용서버2**로 작업을 분산합니다.
 
+::: tip GPU 점유 현황
+서버별 GPU 누가 쓰는지·언제까지 쓸지는 [랩실 공용 시트](https://docs.google.com/spreadsheets/d/1TgqyIqoprkRPuUhh50y0tLeVOOxGXhKenrB_wsMH5Ng/edit?gid=1126439604#gid=1126439604)의 **GPU 사용 현황** 탭에서 확인하고, 본인 사용 일정도 기록해 주세요. 기타 링크는 [참고 링크](../getting-started/links)를 보세요.
+:::
+
 
 ## 리소스 확인 명령어
 
