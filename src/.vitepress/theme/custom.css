@@ -1,3 +1,17 @@
+/* 홈 페이지 배경 */
+.VPContent.is-home::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: url('/images/home-bg.svg') center / cover no-repeat;
+  pointer-events: none;
+}
+
+.dark .VPContent.is-home::before {
+  background-image: url('/images/home-bg-dark.svg');
+}
+
 .waste-request-side-by-side {
   display: grid;
   grid-template-columns: 1fr 1fr;
