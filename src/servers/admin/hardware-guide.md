@@ -115,3 +115,109 @@ sudo chown {계정명}:{계정명} /mnt/nvme04/{계정명}
 ```
 
 새 디스크를 랩원 저장 공간으로 쓰는 경우, [디스크·캐시 관리](../disk-and-cache)의 저장 위치 안내도 함께 갱신하세요.
+
+
+## GPU별 소비전력 제한
+
+여러 GPU가 동시에 풀로드로 돌면 서버 전력 사용량이 급증해 셧다운으로 이어질 수 있습니다. ([2026.09 전원 셧다운 사례](./notice-archive#공용-서버-전원-공급-차단·셧다운-2026-09)) NVIDIA GPU는 **전력 상한(Power Limit)을 낮추는 방법**이 가장 간단하고 효과적입니다. 아래 명령어의 변경 작업에는 **root 권한**이 필요합니다.
+
+전력 사용량은 [Grafana 전력 모니터링](../resource-usage#grafana-전력-모니터링)에서 함께 확인하세요.
+
+### 1. 현재 상태와 설정 가능 범위 확인
+
+```bash
+nvidia-smi --query-gpu=index,name,power.draw,power.limit,power.min_limit,power.max_limit --format=csv
+```
+
+### 2. 전력 상한 설정
+
+```bash
+# 모든 GPU를 200W로 제한
+sudo nvidia-smi -pl 200
+
+# 0번 GPU만 200W로 제한
+sudo nvidia-smi -i 0 -pl 200
+```
+
+값은 1단계에서 확인한 최소~최대 범위 안에서 지정해야 합니다.
+
+### 3. 클럭 상한 고정
+
+```bash
+# 지원 클럭 확인
+nvidia-smi -q -d SUPPORTED_CLOCKS
+
+# GPU 코어 클럭을 300~1500MHz로 제한
+sudo nvidia-smi -i 0 -lgc 300,1500
+
+# 메모리 클럭 제한(지원 모델만 가능, 값은 위 목록을 참고)
+sudo nvidia-smi -i 0 -lmc 405,5001
+
+# 원래대로 복구
+sudo nvidia-smi -i 0 -rgc
+sudo nvidia-smi -i 0 -rmc
+```
+
+### 4. 유휴 전력 낮추기
+
+```bash
+# 퍼시스턴스 모드 활성화
+sudo systemctl enable --now nvidia-persistenced
+
+# GPU를 점유 중인 프로세스 확인
+nvidia-smi
+```
+
+GUI 없는 서버에서는 퍼시스턴스 모드를 켜면 드라이버 초기화가 반복되지 않아, 유휴 상태에서 저전력 상태를 유지하기가 더 쉽습니다. 작업이 없는데도 전력 소모가 높다면 GPU를 점유한 채 남아 있는 프로세스가 없는지도 확인해 보세요. ([gpu_users.sh](../useful-scripts#gpu-users-sh)로 GPU별 사용자 확인 가능)
+
+### 5. 재부팅 후에도 유지하기
+
+`nvidia-smi -pl` 설정은 재부팅하면 초기화되므로, 계속 적용하려면 systemd 서비스로 등록하세요. `/etc/systemd/system/gpu-power-limit.service` 파일을 다음 내용으로 만듭니다.
+
+```ini
+[Unit]
+Description=Set GPU power limit
+After=nvidia-persistenced.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/nvidia-smi -pl 200
+
+[Install]
+WantedBy=multi-user.target
+```
+
+GPU마다 다른 값을 주려면 `ExecStart=/usr/bin/nvidia-smi -i 0 -pl 200`처럼 GPU 번호를 지정한 줄을 여러 개 넣습니다.
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable --now gpu-power-limit.service
+```
+
+### 적용 시 참고 사항
+
+- **권장 시작값:** 먼저 기본 상한의 70~80% 정도로 낮춰 보세요. 이 구간에서는 성능 저하가 전력 절감 폭보다 작은 경우가 많지만, 워크로드에 따라 다르므로 실제 작업으로 확인해야 합니다.
+- **효과 확인:** 아래 명령으로 전력(`pwr`)과 클럭(`mclk`, `pclk`)을 실시간으로 볼 수 있습니다.
+
+  ```bash
+  nvidia-smi dmon -s pc
+  ```
+
+- **주의할 점:** 클라우드나 가상화 환경에서는 권한이나 GPU 모델의 제약으로 이 설정이 막혀 있을 수 있습니다.
+- 전력 상한을 바꿨다면 랩원들에게 공지하고, [하드웨어 작업 이력](./hardware-maintenance)에 날짜와 설정값을 기록해 두세요.
+
+::: details AMD GPU인 경우
+```bash
+# 현재 전력 확인
+rocm-smi --showpower
+
+# 0번 GPU의 전력 상한을 200W로 설정
+sudo rocm-smi -d 0 --setpoweroverdrive 200
+
+# 저전력 성능 레벨로 고정(성능이 크게 떨어질 수 있음)
+sudo rocm-smi -d 0 --setperflevel low
+
+# 원래대로 복구
+sudo rocm-smi -d 0 --setperflevel auto
+```
+:::
