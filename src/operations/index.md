@@ -9,6 +9,8 @@
 | [웹마스터 업무](./webmaster) | 랩 홈페이지(Google Sites) 관리 |
 | [프린터 설정](./printers) | 랩실 프린터 IP 및 연결 |
 | [폐기물 처리](./waste-disposal) | 학교물품·일반물품 폐기 절차, 교내 폐기업체 |
+| [데스크톱 Windows 설치](./desktop-setup) | 새 데스크톱에 Ventoy USB로 Windows 11 설치 |
+| [연구간접비 물품 구매](./purchasing) | 구매 절차, 증빙 자료(영수증·사진) 제출 방법 |
 
 ## 서버·인프라
 

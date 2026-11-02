@@ -1,6 +1,6 @@
 # 유용한 쉘 스크립트
 
-공용 서버 관리·점검·다운로드에 쓰는 스크립트입니다. 원본은 저장소 `docs/scripts/`에 있으며, 빌드 후 `/scripts/` 경로로도 접근할 수 있습니다.
+공용 서버 관리·점검·다운로드에 쓰는 스크립트입니다. 원본은 저장소 `src/public/scripts/`에 있으며, 빌드 후 `/scripts/` 경로로도 접근할 수 있습니다.
 
 
 ## ram_info.sh
@@ -58,7 +58,7 @@ chmod +x ram_info.sh
 ./ram_info.sh
 ```
 
-관련 이력: [하드웨어·유지보수](./admin/hardware-maintenance#20260615-공용서버1-ram-불량)
+관련 이력: [하드웨어 작업 이력](./admin/hardware-maintenance#_2026-06-15-—-공용서버1-ram-불량)
 
 
 ## check_accounts_permissions.sh
@@ -414,14 +414,14 @@ python hf/download_hf_dataset.py
 
 ```bash
 # 저장소 루트에서
-cp docs/scripts/*.sh ~/
-cp -r docs/scripts/hf ~/
+cp src/public/scripts/*.sh ~/
+cp -r src/public/scripts/hf ~/
 chmod +x ~/*.sh
 ```
 
 서버에 직접 옮길 때는 `scp`를 사용합니다.
 
 ```bash
-scp docs/scripts/ram_info.sh {계정}@{서버}:~/
-scp -r docs/scripts/hf {계정}@{서버}:~/
+scp src/public/scripts/ram_info.sh {계정}@{서버}:~/
+scp -r src/public/scripts/hf {계정}@{서버}:~/
 ```

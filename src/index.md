@@ -9,9 +9,9 @@ hero:
     - theme: brand
       text: 시작하기
       link: /getting-started/
-    - theme: alt
-      text: 공용 서버 가이드
-      link: /servers/
+    # - theme: alt
+    #   text: 공용 서버 가이드
+    #   link: /servers/
 
 features:
   - title: 랩실 생활

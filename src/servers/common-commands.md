@@ -78,7 +78,7 @@ sudo dmidecode -t memory | egrep "Locator:|Bank Locator:|Size:"
 | `Size: No Module Installed` | 미설치 또는 인식 안 됨 |
 | `Size: 64 GB` | 정상 설치 (예: 64GB 모듈) |
 
-스크립트 버전: [ram_info.sh](./useful-scripts#ram_infosh)
+스크립트 버전: [ram_info.sh](./useful-scripts#ram-info-sh)
 
 
 ## 권한·시스템 정보 (관리자)

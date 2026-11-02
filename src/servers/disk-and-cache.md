@@ -11,16 +11,33 @@
 **목표:** 루트 파티션에 **최소 300~400GB(약 20%)** 여유 공간 유지
 
 
+## 공용 모델·데이터셋 저장소 (공용서버1)
+
+공용서버1에서는 HuggingFace 등에서 받은 모델·데이터셋을 공용 경로에 모아 관리합니다. **필요한 모델·데이터셋이 이미 있는지 먼저 확인**하고, 있으면 개인 경로에 중복으로 받지 말고 이 경로를 그대로 사용하세요.
+
+| 경로 | 내용 |
+|------|------|
+| `/mnt/nvme01/huggingface/models` | HuggingFace에서 다운받은 모델 |
+| `/mnt/nvme03/huggingface/datasets` | HuggingFace 등에서 다운받은 데이터셋 |
+
+```bash
+ls /mnt/nvme01/huggingface/models
+ls /mnt/nvme03/huggingface/datasets
+```
+
+새로 받아야 할 때는 [download_hf_model.py](./useful-scripts#download-hf-model-py) / [download_hf_dataset.py](./useful-scripts#download-hf-dataset-py) 스크립트로 위 경로에 내려받으면 됩니다.
+
+
 ## 저장 위치 (예시)
 
 | 항목 | 저장 위치 | `/home`에 두면 안 되는 이유 |
 |------|-----------|---------------------------|
-| conda 가상환경 | `/mnt/nvme03/{계정명}/envs/` | 환경 하나에 수 GB~수십 GB |
-| HuggingFace 캐시 | `/mnt/nvme03/{계정명}/.cache/huggingface` | 모델 다운로드 수 GB~수백 GB |
-| PyTorch 캐시 | `/mnt/nvme03/{계정명}/.cache/torch` | 사전학습 가중치 |
-| pip 캐시 | `/mnt/nvme03/{계정명}/.cache/pip` | 패키지 wheel 누적 |
-| 체크포인트 (.pt, .ckpt) | `/mnt/nvme03/{계정명}/checkpoints/` | 학습마다 수 GB |
-| 실험 로그 (Tensorboard, WandB) | `/mnt/nvme03/{계정명}/logs/` | 장기 누적 |
+| conda 가상환경 | `/mnt/nvme04/{계정명}/envs/` | 환경 하나에 수 GB~수십 GB |
+| HuggingFace 캐시 | `/mnt/nvme04/{계정명}/.cache/huggingface` | 모델 다운로드 수 GB~수백 GB |
+| PyTorch 캐시 | `/mnt/nvme04/{계정명}/.cache/torch` | 사전학습 가중치 |
+| pip 캐시 | `/mnt/nvme04/{계정명}/.cache/pip` | 패키지 wheel 누적 |
+| 체크포인트 (.pt, .ckpt) | `/mnt/nvme04/{계정명}/checkpoints/` | 학습마다 수 GB |
+| 실험 로그 (Tensorboard, WandB) | `/mnt/nvme04/{계정명}/logs/` | 장기 누적 |
 
 `/mnt/nvme02/home/{계정명}` 경로를 쓰는 경우도 있으니, 랩장에게 본인에게 배정된 경로를 확인하세요.
 
@@ -28,8 +45,8 @@
 ## 가상환경을 `/mnt`에 생성
 
 ```bash
-conda create -p /mnt/nvme03/{계정명}/envs/{가상환경명} python=3.10
-conda activate /mnt/nvme03/{계정명}/envs/{가상환경명}
+conda create -p /mnt/nvme04/{계정명}/envs/{가상환경명} python=3.10
+conda activate /mnt/nvme04/{계정명}/envs/{가상환경명}
 ```
 
 
@@ -39,9 +56,9 @@ conda activate /mnt/nvme03/{계정명}/envs/{가상환경명}
 
 ```bash
 # Cache PATH
-export HF_HOME=/mnt/nvme03/{계정명}/.cache/huggingface
-export TORCH_HOME=/mnt/nvme03/{계정명}/.cache/torch
-export PIP_CACHE_DIR=/mnt/nvme03/{계정명}/.cache/pip
+export HF_HOME=/mnt/nvme04/{계정명}/.cache/huggingface
+export TORCH_HOME=/mnt/nvme04/{계정명}/.cache/torch
+export PIP_CACHE_DIR=/mnt/nvme04/{계정명}/.cache/pip
 
 # NUM_THREADS — CPU 스레드 과다 점유 방지
 export TOKENIZERS_PARALLELISM=false
@@ -91,7 +108,7 @@ sudo du -sh /home/* | sort -h
 
 ```bash
 conda env list
-conda remove -p /mnt/nvme03/{계정명}/envs/{가상환경명} --all
+conda remove -p /mnt/nvme04/{계정명}/envs/{가상환경명} --all
 ```
 
 ### 2. conda·pip 캐시 정리
@@ -113,4 +130,4 @@ pip cache purge
 
 ## 신규 계정 생성 시 (관리자)
 
-새 계정 `.bashrc`에 위 **Cache PATH**와 **NUM_THREADS** 블록을 기본으로 넣어 주세요. ([공용서버관리 메모](./admin/hardware-maintenance))
+새 계정 `.bashrc`에 위 **Cache PATH**와 **NUM_THREADS** 블록을 기본으로 넣어 주세요. ([계정·서비스 관리](./admin/account-service#계정-생성-시-기본-bashrc-관리자))

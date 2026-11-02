@@ -2,9 +2,25 @@
 
 랩실에서는 **Milvus**를 벡터 데이터베이스로 운영합니다. 웹 UI인 **Attu**로 collection 상태를 확인·관리할 수 있습니다.
 
-::: tip 자세한 가이드
-Milvus 기반 RAG 구축·활용 방법은 <a href="/docs/milvus-rag-manual.pdf" target="_blank" rel="noopener noreferrer">Milvus기반 RAG 메뉴얼</a> PDF를 참조하세요. 링크를 누르면 새 창에서 열립니다.
-:::
+## 자료 다운로드
+
+Milvus 기반 RAG 구축·활용 방법은 아래 매뉴얼을 참조하세요. 사용하는 서버에 맞는 문서를 내려받으면 됩니다.
+
+| 자료 | 다운로드 |
+|------|----------|
+| Milvus기반 RAG 메뉴얼 (서버1) | <a href="/docs/milvus/milvus-rag-manual-server1.pdf" download="Milvus기반 RAG 메뉴얼_서버1.pdf">PDF 다운로드</a> |
+| Milvus기반 RAG 메뉴얼 (서버2) | <a href="/docs/milvus/milvus-rag-manual-server2.pdf" download="Milvus기반 RAG 메뉴얼_서버2.pdf">PDF 다운로드</a> |
+| 벡터 DB 구축 예제 (DiskANN) | <a href="/docs/milvus/build_vectordb_milvus_diskann.py" download="Build_VectorDB[Milvus]_DiskANN.py">.py 다운로드</a> |
+
+## 예제 코드: 벡터 DB 구축 (DiskANN)
+
+SentenceTransformer로 문서를 임베딩해 Milvus collection(`DISKANN` 인덱스, `IP` 메트릭)에 저장하고, 검색까지 해 보는 예제입니다. 실행 전 아래 값을 본인 환경에 맞게 수정하세요.
+
+- `token` — 본인 Milvus 계정 (`<username>:<password>`)
+- `model_folder`, `data_folder` — 임베딩 모델·데이터셋 경로
+- `dataset_name`, `collection_name` — 적재할 데이터셋과 collection 이름
+
+<<< @/public/docs/milvus/build_vectordb_milvus_diskann.py
 
 ## Attu 접속
 
@@ -63,4 +79,4 @@ docker cp milvus.yaml <milvus_container_id>:/milvus/configs/milvus.yaml
 ## 관련 문서
 
 - [리소스 사용 가이드](./resource-usage) — RAM 모니터링
-- [공지 메일 아카이브 — Milvus OOM](./admin/notice-archive#ram-및-milvus-oom-2025-05)
+- [공지 아카이브 — Milvus OOM](./admin/notice-archive#ram-및-milvus-oom-2025-05)
