@@ -43,7 +43,7 @@ export default defineConfig({
           items: [
             { text: '소개', link: '/getting-started/' },
             { text: '랩실 출입 방법', link: '/getting-started/lab-access' },
-            { text: '참고 링크', link: '/getting-started/links' },
+            { text: '참고 자료', link: '/getting-started/links' },
           ],
         },
       ],

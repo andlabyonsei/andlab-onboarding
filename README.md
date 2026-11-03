@@ -18,7 +18,7 @@ npm run preview   # 빌드 결과 미리보기
 ```
 src/
 ├── index.md              # 홈
-├── getting-started/      # 시작하기 (출입, 참고 링크)
+├── getting-started/      # 시작하기 (출입, 참고 자료)
 ├── servers/              # 공용 서버 가이드
 │   └── admin/            # 서버 관리 (랩장·관리자)
 ├── operations/           # 랩실 운영 (프린터, 폐기물, 구매 등)

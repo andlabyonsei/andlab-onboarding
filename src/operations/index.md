@@ -20,4 +20,4 @@
 
 1. [시작하기 — 체크리스트](../getting-started/#신입생-체크리스트) 공유
 2. 공용 서버 계정 생성 + [디스크·캐시 `.bashrc`](../servers/disk-and-cache) 기본 설정
-3. [참고 링크](../getting-started/links) (VPN, 공유 시트) 안내
+3. [참고 자료](../getting-started/links) (VPN, 공유 시트) 안내
