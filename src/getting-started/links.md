@@ -18,12 +18,18 @@
 | 이름 | 용도 | 링크 |
 |------|------|------|
 | 랩실 공용 시트 | 업무분담, 연락처, GPU 사용 현황, 랩미팅 일정, 비품·출근부 등 | [ANDLab_2026 (Google Sheets)](https://docs.google.com/spreadsheets/d/1TgqyIqoprkRPuUhh50y0tLeVOOxGXhKenrB_wsMH5Ng/edit?gid=1126439604#gid=1126439604) |
-| 논문·연구 현황 시트 | 랩원별 논문·연구 진행 현황 정리 | [Google Sheets](https://docs.google.com/spreadsheets/d/1I2E3Scabqm9dha_GsY5runxHjoLQUNIVSpj3vlcGFcs/edit?gid=0#gid=0) |
+| 랩실 GitHub | 랩실 공용 GitHub 조직 (연구 코드·저장소 공유) | [github.com/andlabyonsei](https://github.com/andlabyonsei) |
 | 가이드 저장소 | 이 문서의 소스·이슈·PR | [GitHub — andlab-onboarding](https://github.com/andlabyonsei/andlab-onboarding) |
 
 ::: tip
-랩원 공통으로 쓰는 **랩실 공용 시트**입니다. GPU 점유 현황 확인·기록, 미팅·당번·연락처 등은 여기서 확인·갱신하세요. 논문·연구 진행 상황은 **논문·연구 현황 시트**를 참고하세요.
+랩원 공통으로 쓰는 **랩실 공용 시트**입니다. GPU 점유 현황 확인·기록, 미팅·당번·연락처 등은 여기서 확인·갱신하세요.
 :::
+
+## 양식·템플릿
+
+| 이름 | 용도 | 다운로드 |
+|------|------|----------|
+| 랩실 발표자료 템플릿 | 랩미팅·세미나 발표용 PPT 양식 | <a href="/docs/templates/andlab-presentation-template.pptx" download="ANDLab 발표자료.pptx">PPTX 다운로드</a> |
 
 <!-- ## 개발 환경
 
