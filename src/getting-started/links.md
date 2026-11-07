@@ -30,6 +30,7 @@
 | 이름 | 용도 | 다운로드 |
 |------|------|----------|
 | 랩실 발표자료 템플릿 | 랩미팅·세미나 발표용 PPT 양식 | <a href="/docs/templates/andlab-presentation-template.pptx" download="ANDLab 발표자료.pptx">PPTX 다운로드</a> |
+| Rebuttal 답변 템플릿 | 학회·저널 rebuttal 때 리뷰어 코멘트별 답변 정리용 양식 | <a href="/docs/templates/rebuttal-response-template.docx" download="Rebuttal Response Template.docx">DOCX 다운로드</a> |
 
 <!-- ## 개발 환경
 

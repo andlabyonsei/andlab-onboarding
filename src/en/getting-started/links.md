@@ -30,6 +30,7 @@ The **lab shared sheet** is used by all lab members. Check and update GPU usage,
 | Name | Purpose | Download |
 |------|------|----------|
 | Lab presentation template | PPT template for lab meetings and seminars | <a href="/docs/templates/andlab-presentation-template.pptx" download="ANDLab 발표자료.pptx">Download PPTX</a> |
+| Rebuttal response template | Form for organizing responses to each reviewer comment during the conference or journal rebuttal period | <a href="/docs/templates/rebuttal-response-template.docx" download="Rebuttal Response Template.docx">Download DOCX</a> |
 
 ## Lab Website (for the Webmaster)
 
