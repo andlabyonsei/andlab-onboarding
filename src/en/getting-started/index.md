@@ -10,7 +10,7 @@ This is a translation of the Korean guide. Some attached files (PDF manuals, for
 
 | Section | Contents |
 |------|------|
-| [Lab Door Access](./lab-access) | Opening and locking the lab door |
+| [Lab Door Access](./lab-access) | Getting access permissions, opening and locking the lab door |
 | [Resources](./links) | VPN, IP requests, shared sheets, presentation template, etc. |
 | [Shared Servers](../servers/) | SSH, development environment, resource management |
 | [Lab Operations](../operations/) | Lab website, printers, waste disposal |
@@ -19,6 +19,7 @@ This is a translation of the Korean guide. Some attached files (PDF manuals, for
 
 Go through the steps below after you start coming to the lab.
 
+- [ ] **Access permissions** — Go up to the administrative office (행정실) to get [access permissions](./lab-access) for the New Millennium Hall entrance and B122-1.
 - [ ] **Lab access** — Read [Lab Door Access](./lab-access) and practice entering with your student ID card.
 - [ ] **Essential links** — Bookmark the VPN request page, shared sheets, etc. from [Resources](./links).
 - [ ] **Shared server account** — Ask the lab lead to create an account, then download the [server manual](../servers/#setup-manuals) and set up SSH access.

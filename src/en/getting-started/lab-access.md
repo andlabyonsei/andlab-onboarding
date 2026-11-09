@@ -2,6 +2,13 @@
 
 The ANDlab door uses both a student ID card reader and a KT access system. Follow the steps below exactly so the door opens and locks properly.
 
+## Getting Access Permissions (New Students)
+
+New students must **go up to the department administrative office (행정실)** to get floor access permissions for New Millennium Hall (새천년관). Request access to these two locations:
+
+- New Millennium Hall entrance
+- B122-1
+
 ## Opening the Door (First Person In)
 
 1. Press the **"해제" (Disarm)** button, then **tap your student ID card on the reader**.
